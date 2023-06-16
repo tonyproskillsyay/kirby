@@ -38,8 +38,10 @@ racket_img = 'racket.png'
 win_width = 600
 win_height = 500
 window = display.set_mode((win_width, win_height))
-#window.blit(image.load(background_img), (win_width, win_height))
-window.fill(cyan)
+background = transform.scale(image.load(background_img), (win_width, win_height))
+print(background)
+window.blit(background, (0, 0))
+#window.fill(cyan)
 game = True
 finish = False
 clock = time.Clock()
@@ -69,8 +71,8 @@ while game:
             game = False
 
     if finish != True:
-        #window.blit(image.load(background_img), (win_width, win_height))
-        window.fill(cyan)
+        window.blit(background, (0, 0))
+        #window.fill(cyan)
 
         racket1.update_l()
         racket2.update_r()
@@ -79,8 +81,8 @@ while game:
 
 
         if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
-            speed_x = -1
-            speed_y= 1
+            speed_x *= -1
+            speed_y *= 1
 
         #if the ball reaches screen edges, change its movement direction
         if ball.rect.y > win_height-50 or ball.rect.y < 0:
