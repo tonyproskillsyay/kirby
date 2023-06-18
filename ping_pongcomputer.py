@@ -31,6 +31,14 @@ class Player(GameSprite):
         if keys[K_s] and self.rect.y < win_height -80:
             self.rect.y += self.speed
 
+class Computer(GameSprite):
+    def autoplay(self, ball):
+        if ball.rect.y > self.rect.y:
+            self.rect.y += 5
+        else:
+            self.rect.y -= 5
+
+
 cyan = (0, 255, 255)
 background_img = 'background2.jpg'
 ball_img = 'ball.png'
@@ -52,7 +60,7 @@ FPS = 60
 
 
 racket1 = Player(racket_img, 30, 200, 4, 50, 150)
-racket2 = Player(racket_img, 520, 200, 4, 50, 150)
+racket2 = Computer(racket_img, 520, 200, 4, 50, 150)
 ball = GameSprite(ball_img, 200, 200, 4, 50, 50)
 
 font.init()
@@ -61,13 +69,14 @@ lose1 = font.render('PLAYER 1 LOSE!', True, (180, 0, 0))
 lose2 = font.render('PLAYER 2 LOSE!', True, (180, 0, 0))
 
 
-speed_x = 1
-speed_y = 1
+speed_x = 7
+speed_y = 7
 
 
 mixer.init()
 mixer.music.load("mario.mp3")
 mixer.music.play()
+
 
 while game:
     for e in event.get():
@@ -79,7 +88,7 @@ while game:
         #window.fill(cyan)
 
         racket1.update_l()
-        racket2.update_r()
+        racket2.autoplay(ball)
         ball.rect.x += speed_x
         ball.rect.y += speed_y
 
